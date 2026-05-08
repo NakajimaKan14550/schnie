@@ -1,17 +1,21 @@
-<!DOCTYPE html>
+import os
+
+# Define the HTML content based on the user's requirements
+html_content = """<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>産業用光学系ソリューション：技術原理と選定論理</title>
+    <title>シュナイダー産業用レンズ：光学精度の物理的考察</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Base Styles */
         :root {
-            --main-color: #091a2d;
-            --accent-color: #f97316;
-            --bg-color: #f8fafc;
-            --text-color: #334155;
-            --border-color: #e2e8f0;
+            --primary: #091a2d;
+            --accent: #f97316;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
         }
 
         * {
@@ -22,9 +26,9 @@
 
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
             line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-light);
         }
 
         /* Navigation */
@@ -39,106 +43,134 @@
             align-items: center;
         }
 
-        .logo {
+        nav .logo-link {
+            display: flex;
+            align-items: center;
+        }
+
+        nav img {
             height: 40px;
             cursor: pointer;
         }
 
-        /* Hero Area */
-        header {
-            background: var(--main-color);
+        /* Hero Section */
+        .hero {
+            background: var(--primary);
             color: #fff;
-            padding: 80px 5%;
-            text-align: center;
+            padding: 100px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
         }
 
         .hero-content {
-            max-width: 1000px;
-            margin: 0 auto;
+            max-width: 800px;
         }
 
-        .hero-logo {
-            height: 60px;
+        .hero-logo-area {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        h1 {
+        .hero-logo-area img {
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        .hero h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            line-height: 1.2;
             margin-bottom: 20px;
         }
 
-        .lead {
+        .hero p {
             font-size: 1.1rem;
             color: #cbd5e1;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 600px;
         }
 
-        /* Section Layout */
+        /* Main Content Layout */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
         section {
-            padding: 80px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-bottom: 100px;
         }
 
-        .section-title {
-            font-size: 1.8rem;
-            border-left: 5px solid var(--accent-color);
+        .section-tag {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent);
             padding-left: 15px;
-            margin-bottom: 40px;
-            color: var(--main-color);
         }
 
-        .grid {
+        .grid-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 40px;
+            align-items: start;
         }
 
         .card {
             background: #fff;
             padding: 30px;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         h3 {
+            font-size: 1.3rem;
             margin-bottom: 15px;
-            color: var(--main-color);
-            font-size: 1.25rem;
+            color: var(--primary);
         }
 
-        /* Data Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        ul li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Image Zoom Features */
+        .img-container {
             margin: 20px 0;
-            background: #fff;
+            text-align: center;
         }
 
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 12px 15px;
-            text-align: left;
-        }
-
-        th {
-            background: #f1f5f9;
-            color: var(--main-color);
-        }
-
-        /* Image Zoom Feature */
         img {
             max-width: 100%;
             height: auto;
+            border-radius: 4px;
             cursor: zoom-in;
             transition: all 0.3s ease;
-            display: block;
-            margin: 20px auto;
-            border-radius: 4px;
         }
 
         .zoomed {
@@ -147,11 +179,14 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(1.5);
             z-index: 2000;
-            cursor: zoom-out;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            cursor: zoom-out !important;
+            max-height: 90vh;
+            max-width: 90vw;
+            object-fit: contain;
         }
 
-        .overlay {
+        .zoom-overlay {
             display: none;
             position: fixed;
             top: 0;
@@ -162,133 +197,192 @@
             z-index: 1500;
         }
 
-        /* Technical Specs List */
-        .spec-list {
-            list-style: none;
+        /* Footer */
+        footer {
+            background: #091a2d;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
         }
 
-        .spec-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .spec-label {
+        .footer-info .company-name {
+            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--main-color);
+            margin-bottom: 20px;
         }
 
-        /* Responsive */
+        .footer-address {
+            font-style: normal;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .btn-contact {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-contact:hover {
+            opacity: 0.9;
+        }
+
+        /* Table Style */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            section { padding: 40px 5%; }
+            .contact-grid {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="overlay" id="imageOverlay"></div>
-
 <nav>
-    <a href="https://nakajimakan14550.github.io/home/">
-        <img src="logo.png" alt="Logo" class="logo">
+    <a href="https://nakajimakan14550.github.io/home/" class="logo-link">
+        <img src="logo.png" alt="Company Logo">
     </a>
 </nav>
 
-<header>
+<header class="hero">
     <div class="hero-content">
-        <img src="logo.png" alt="Brand Logo" class="hero-logo">
-        <h1>産業用光学系における物理的整合性と選定論理</h1>
-        <p class="lead">撮像データの信頼性は、センサ解像度ではなく光学系の物理特性によって規定される。WD、焦点距離、ディストーションの相関関係に基づく技術解説。</p>
+        <div class="hero-logo-area">
+            <img src="logo.png" alt="Logo Accent">
+        </div>
+        <h1>光学幾何学の厳密性と<br>高画素センサーへの最適化</h1>
+        <p>ドイツ・シュナイダー社製産業用レンズによる、パースペクティブ歪みの排除と1億画素クラスの分解能維持に関する技術的考察。</p>
     </div>
 </header>
 
-<section>
-    <h2 class="section-title">1. 背景と課題：光学系における物理的限界</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>ディストーションの発生</h3>
-            <p>レンズ構造に起因する像の歪みは、計測精度に直結する。特に広角レンズで顕著な「樽型」や、長焦点で発生しやすい「糸巻き型」は、画素レベルの寸法測定において致命的な誤差要因となる。</p>
-            
-        </div>
-        <div class="card">
-            <h3>被写界深度の制約</h3>
-            <p>光量確保のためにF値を下げる（開く）ほど、ピントの合う奥行き範囲は収束する。ワークの段差や搬送時の振動（バタつき）がある環境下では、解像感の消失を招く物理的トレードオフが存在する。</p>
-        </div>
-    </div>
-</section>
+<div class="zoom-overlay" id="zoomOverlay"></div>
 
-<section style="background: #fff;">
-    <h2 class="section-title">2. 解決策：技術原理と選定パラメータ</h2>
-    <p>高精度な画像処理を実現するためには、以下の物理パラメータを数学的に整合させる必要がある。</p>
-    
-    <h3>■ 光学選定の主要指標</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>項目</th>
-                <th>物理的定義</th>
-                <th>設計への影響</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>WD (Working Distance)</td>
-                <td>レンズ先端から対象物までの距離</td>
-                <td>装置筐体サイズ、照明配置スペースの決定</td>
-            </tr>
-            <tr>
-                <td>焦点距離 (Focal Length)</td>
-                <td>レンズ主点から焦点までの距離</td>
-                <td>画角（FOV）および光学倍率の規定</td>
-            </tr>
-            <tr>
-                <td>F値 (F-Number)</td>
-                <td>有効径に対する焦点距離の比</td>
-                <td>光量および被写界深度（奥行きピント範囲）の制御</td>
-            </tr>
-            <tr>
-                <td>解像力 (lp/mm)</td>
-                <td>1mmあたりの識別可能な線対数</td>
-                <td>高画素センサ（100Mクラス等）の性能担保</td>
-            </tr>
-        </tbody>
-    </table>
+<main>
+    <section id="background">
+        <span class="section-tag">Background & Challenges</span>
+        <h2>光学的幾何学における計測誤差の課題</h2>
+        <div class="grid-layout">
+            <div>
+                <p>
+                    従来の産業用光学系において、物体の三次元的な位置変化は、結像面における「パースペクティブ歪み（遠近歪み）」を引き起こす。これは、被写体距離の変化に伴い主光線の角度が変動し、結像倍率が変化するという物理現象に起因する。
+                </p>
+                <p style="margin-top: 15px;">
+                    この倍率変動は、精密な寸法測定を必要とするFA（ファクトリーオートメーション）現場において、許容不可能な計測誤差として現れる。特に不揃いな高さを持つ電子部品や、微細な金属加工品の検査において、従来のレンズ系では定量的再現性を確保することが困難であった。
+                </p>
+            </div>
+            <div class="card">
+                <h3>従来のレンズが抱える物理的限界</h3>
+                <ul>
+                    <li>被写体距離に依存する結像倍率の変動</li>
+                    <li>光軸外における周辺減光と歪曲収差</li>
+                    <li>高画素センサーに対する解像力の不足</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-    <h3>■ 特殊光学系によるアプローチ</h3>
-    <p>計測用途において、一般的なレンズの限界を克服するためにテレセントリック光学系が採用される。</p>
-    <div class="grid">
-        <div class="card">
-            <h3>テレセントリックレンズ</h3>
-            <p>主光線が光軸に対して平行になるよう設計。対象物の遠近による倍率変化を排し、常に一定の大きさをセンサに投影する。アライメントや精密寸法測定において標準的な解となる。</p>
-            
+    <section id="technology">
+        <span class="section-tag">Technical Principles</span>
+        <h2>シュナイダー社独自の光学ソリューション</h2>
+        <div class="grid-layout">
+            <div class="card">
+                <h3>テレセントリック光学系の実装</h3>
+                <p>主光線を光軸に対して平行に設計することで、被写体が光軸方向に移動しても倍率が変化しない特性を実現。これにより「計測誤差ゼロ」の光学環境を構築する。</p>
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80&w=800" alt="Optical Diagram placeholder">
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">図1：テレセントリック光学系における光路概念図</p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>1億画素対応の高分解能設計</h3>
+                <p>最新のCMOSセンサーの画素ピッチ微細化に対応し、MTF（変調伝達関数）特性を極限まで高めた光学設計を採用。1億画素クラスのセンサー性能を減衰させることなく、微細なエッジ検出を可能にする。</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>仕様・特性</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>テレセントリック性</td>
+                            <td>計測誤差の排除</td>
+                        </tr>
+                        <tr>
+                            <td>対応解像度</td>
+                            <td>1億画素クラス</td>
+                        </tr>
+                        <tr>
+                            <td>フランジバック</td>
+                            <td>厳密な管理・校正済</td>
+                        </tr>
+                        <tr>
+                            <td>マウント構造</td>
+                            <td>耐振動・高剛性設計</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="card">
-            <h3>マウント規格の整合性</h3>
-            <ul class="spec-list">
-                <li><span>Cマウント</span> <span>FB: 17.526 mm</span></li>
-                <li><span>CSマウント</span> <span>FB: 12.500 mm</span></li>
-                <li><span>F / M42マウント</span> <span>大型・高解像度センサ用</span></li>
-            </ul>
-        </div>
-    </div>
-</section>
+    </section>
 
-<section>
-    <h2 class="section-title">3. 産業的インパクトと適用検討</h2>
-    <p>Schneider（ドイツ）やKowa（日本）に代表される高性能レンズの導入は、単なる画質向上に留まらず、システム全体の信頼性と検査タクトに寄与する。</p>
-    <div class="grid">
-        <div class="card">
-            <h3>超高解像度への対応</h3>
-            <p>100M（1億画素）クラスのセンサを運用する場合、レンズ側の分解能が画素ピッチを下回ると、センサ投資の投資対効果が消失する。レンズは「光を取り込む最初の入り口」であり、全体の限界値を規定する。</p>
+    <section id="impact">
+        <span class="section-tag">Industrial Impact</span>
+        <h2>産業自動化への定量的インパクト</h2>
+        <div class="grid-layout">
+            <div>
+                <h3>検査プロセスの高精度化と安定性</h3>
+                <p>
+                    シュナイダー製レンズの導入は、単なる画質の向上に留まらない。厳密に管理されたフランジバックと堅牢なマウント設計により、過酷な産業環境下においても光軸のズレやピントの変動を抑制する。
+                </p>
+                <p style="margin-top: 15px;">
+                    これにより、外観検査システムの信頼性が飛躍的に向上し、ダウンタイムの削減および検査工程の自動化・省人化を論理的に裏付けることが可能となる。
+                </p>
+            </div>
+            <div class="card" style="background: var(--bg-light); border: 1px solid #e2e8f0;">
+                <h3>定量的メリット</h3>
+                <ul>
+                    <li><strong>品質管理の深化:</strong> 微細な欠陥の確実な捕捉。</li>
+                    <li><strong>スループットの向上:</strong> 測定の安定化による処理速度の最適化。</li>
+                    <li><strong>長期信頼性:</strong> 堅牢設計による経年劣化の抑制。</li>
+                </ul>
+            </div>
         </div>
-        <div class="card">
-            <h3>堅牢なシステム運用</h3>
-            <p>V38システムやCompact C-mount等の採用により、振動環境下でのフランジバック（FB）の変動を1mm以下の単位で抑制。物理的な安定性が長期的な検査精度を保証する。</p>
-        </div>
-    </div>
-</section>
+    </section>
+</main>
 
 <footer style="background: #091a2d; color: #fff; padding: 60px 20px; text-align: center;">
     <div class="footer-info">
@@ -310,34 +404,49 @@
 </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const images = document.querySelectorAll('img:not(.logo):not(.hero-logo)');
-        const overlay = document.getElementById('imageOverlay');
+    // Image Zoom Logic
+    const images = document.querySelectorAll('main img');
+    const overlay = document.getElementById('zoomOverlay');
 
-        images.forEach(img => {
-            img.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (img.classList.contains('zoomed')) {
-                    closeZoom();
-                } else {
-                    img.classList.add('zoomed');
-                    overlay.style.display = 'block';
-                }
-            });
-        });
-
-        overlay.addEventListener('click', closeZoom);
-        window.addEventListener('scroll', closeZoom);
-
-        function closeZoom() {
-            const zoomedImg = document.querySelector('.zoomed');
-            if (zoomedImg) {
-                zoomedImg.classList.remove('zoomed');
+    images.forEach(img => {
+        img.addEventListener('click', () => {
+            if (img.classList.contains('zoomed')) {
+                // Shrink
+                img.classList.remove('zoomed');
                 overlay.style.display = 'none';
+            } else {
+                // Expand
+                // First reset any other zoomed images
+                images.forEach(i => i.classList.remove('zoomed'));
+                
+                img.classList.add('zoomed');
+                overlay.style.display = 'block';
             }
-        }
+        });
     });
+
+    // Close on overlay click
+    overlay.addEventListener('click', () => {
+        images.forEach(img => img.classList.remove('zoomed'));
+        overlay.style.display = 'none';
+    });
+
+    // Close on Scroll
+    window.addEventListener('scroll', () => {
+        if (document.querySelector('.zoomed')) {
+            images.forEach(img => img.classList.remove('zoomed'));
+            overlay.style.display = 'none';
+        }
+    }, { passive: true });
 </script>
 
 </body>
 </html>
+"""
+
+# Save to a file
+file_path = "special_solution_schneider_lens.html"
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"File saved to: {file_path}")
