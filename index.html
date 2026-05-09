@@ -359,6 +359,93 @@ html_content = """<!DOCTYPE html>
         </div>
     </section>
 
+    <section>
+        <span class="tag">01. BACKGROUND & CHALLENGES</span>
+        <h2>撮像距離変動に伴う倍率誤差の物理的課題</h2>
+        <div class="grid">
+            <div class="content">
+                <p>
+                    標準的な光学レンズ（エンティセントリック光学系）においては、被写体距離の変化に伴い主光線の入射角度が変動し、結像面における像の大きさが変化する「パースペクティブ誤差」が発生する。これは、三次元構造を持つ測定対象物や、コンベア上の位置ズレを許容する高速検査ラインにおいて、致命的な寸法測定誤差の要因となる。
+                </p>
+                <p style="margin-top: 15px;">
+                    シュナイダーのテレセントリックレンズは、主光線を光軸に対して平行に維持することで、被写界深度内における倍率変動を物理的に排除し、高精度なマシンビジョン環境を構築する。
+                </p>
+            </div>
+            <div class="card">
+                <h3>従来の光学系の限界</h3>
+                <ul>
+                    <li>距離変化に比例した像サイズの増減</li>
+                    <li>傾斜した主光線によるシルエットの歪み</li>
+                    <li>不均一な視差による周辺部の計測精度低下</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <span class="tag">02. TECHNICAL PRINCIPLES</span>
+        <h2>主光線の平行化による幾何学的解法</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>テレセン性と収差制御</h3>
+                <p>
+                    レンズ収差を数μm以内に抑制する極めて高いテレセン性を実現。物体側テレセントリック設計により、対象物が光軸方向に移動しても主光線の角度が変わらず、常に一定の倍率を維持する。
+                </p>
+                <div class="zoom-container">
+                    <img src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80&w=800" alt="Telecentric Ray Diagram">
+                </div>
+            </div>
+            <div class="card">
+                <h3>両側テレセントリックの優位性</h3>
+                <p>
+                    物体側のみならず、像側（カメラ側）もテレセントリック化することで、CMOS/CCDセンサーへの垂直入射を確保。これにより、センサー面の微細な傾きや位置変化による影響も排除し、さらなる高精度化を図る。
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>実装技術</th>
+                            <th>物理的効果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>物体側テレセン</td>
+                            <td>距離変化による倍率誤差の排除</td>
+                        </tr>
+                        <tr>
+                            <td>両側テレセン</td>
+                            <td>センサー面での結像安定性向上</td>
+                        </tr>
+                        <tr>
+                            <td>コリメート照明</td>
+                            <td>影の排除と高コントラスト化</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <span class="tag">03. INDUSTRIAL IMPACT</span>
+        <h2>高分解能産業用撮像における定量的インパクト</h2>
+        <div class="grid">
+            <div class="content">
+                <p>
+                    シュナイダーの光学設計は、エリアカメラおよびラインスキャンカメラの双方において、撮像素子の持つ分解能を最大限に引き出す。特に精密さが要求される半導体ウェハ検査や、微細電子部品の寸法検査において、その堅牢な構造と安定した光学性能は、歩留まりの改善と直結する。
+                </p>
+            </div>
+            <div class="card">
+                <h3>主要用途別メリット</h3>
+                <ul>
+                    <li><strong>半導体・電子部品:</strong> 厳密な外形寸法およびピッチ測定。</li>
+                    <li><strong>精密加工品:</strong> 複雑な形状のシルエット測定。</li>
+                    <li><strong>位置決め:</strong> サブピクセル単位の高精度な座標検知。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
     <section id="impact">
         <span class="section-tag">Industrial Impact</span>
         <h2>産業自動化への定量的インパクト</h2>
